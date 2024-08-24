@@ -1,19 +1,23 @@
+/* eslint-disable no-console */
 import mongoose from 'mongoose';
 import app from './app';
-import config from './app/config';
 import { Server } from 'http';
+import config from './app/config';
 
 let server: Server;
 
 async function main() {
-    await mongoose.connect(config.database_url as string);
+    try {
+        await mongoose.connect(config.database_url as string);
 
-    server = app.listen(config.port, () =>
-        console.log(`Server running on port ${config.port}`)
-    );
+        server = app.listen(config.port, () => {
+            console.log(`app is listening on port ${config.port}`);
+        });
+    } catch (err) {
+        console.log(err);
+    }
 }
 
-process.on('uncaughtException', () => process.exit(1));
 process.on('unhandledRejection', () => {
     if (server) {
         server.close(() => {
@@ -23,5 +27,7 @@ process.on('unhandledRejection', () => {
 
     process.exit(1);
 });
+
+process.on('uncaughtException', () => process.exit(1));
 
 main();
