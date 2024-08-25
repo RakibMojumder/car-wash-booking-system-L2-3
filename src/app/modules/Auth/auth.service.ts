@@ -31,7 +31,11 @@ const userLogin = async (payload: TUserLogin) => {
         throw new AppError(httpStatus.BAD_REQUEST, 'Invalid credentials');
     }
 
-    const token = generateToken({ email: user.email, role: user.role });
+    const token = generateToken({
+        email: user.email,
+        role: user.role,
+        id: user._id,
+    });
 
     // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
     const { password, ...userData } = user;

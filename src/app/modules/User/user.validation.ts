@@ -1,7 +1,6 @@
 import { z } from 'zod';
-import { UserRole } from './user.constants';
 
-export const userRoleSchema = z.enum(UserRole as [string, ...string[]]);
+export const userRoleSchema = z.enum(['user', 'admin']);
 
 export const userSchemaValidation = z.object({
     body: z.object({

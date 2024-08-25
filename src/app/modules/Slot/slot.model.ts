@@ -10,7 +10,7 @@ const slotSchema = new Schema<TSlot>(
             ref: 'services',
         },
         date: {
-            type: Date,
+            type: String,
             required: true,
         },
         startTime: {
@@ -24,6 +24,7 @@ const slotSchema = new Schema<TSlot>(
         isBooked: {
             type: String,
             enum: IsBooked,
+            default: 'available',
         },
     },
     { timestamps: true }

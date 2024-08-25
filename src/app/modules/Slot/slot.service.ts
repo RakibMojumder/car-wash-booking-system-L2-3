@@ -42,6 +42,16 @@ const createSlotIntoDB = async (payload: TSlot) => {
     return result;
 };
 
-const slotServices = { createSlotIntoDB };
+const getAvailableSlotsFromDB = async (query: Record<string, unknown>) => {
+    const result = await Slot.find({
+        isBooked: 'available',
+        date: query.date,
+        service: query.serviceId,
+    }).populate('service');
+
+    return result;
+};
+
+const slotServices = { createSlotIntoDB, getAvailableSlotsFromDB };
 
 export default slotServices;
