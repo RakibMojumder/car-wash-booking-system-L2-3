@@ -43,11 +43,17 @@ const createSlotIntoDB = async (payload: TSlot) => {
 };
 
 const getAvailableSlotsFromDB = async (query: Record<string, unknown>) => {
-    const result = await Slot.find({
-        isBooked: 'available',
-        date: query.date,
-        service: query.serviceId,
-    }).populate('service');
+    const filter: Record<string, unknown>[] = [{ isBooked: 'available' }];
+
+    if (query.date) {
+        filter.push({ date: query.date });
+    }
+
+    if (query.service) {
+        filter.push({ service: query.serviceId });
+    }
+
+    const result = await Slot.find({ $and: filter }).populate('service');
 
     return result;
 };

@@ -2,7 +2,7 @@ import { Router } from 'express';
 import authRouter from '../modules/Auth/auth.route';
 import serviceRouter from '../modules/Service/service.route';
 import slotRoute from '../modules/Slot/slot.route';
-import bookingRoute from '../modules/booking/booking.route';
+import bookingRoute from '../modules/Booking/booking.route';
 
 const router = Router();
 
