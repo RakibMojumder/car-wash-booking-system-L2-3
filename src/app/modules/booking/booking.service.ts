@@ -40,6 +40,20 @@ const bookingServiceIntoDB = async (payload: TBooking) => {
     return result;
 };
 
-const bookingServices = { bookingServiceIntoDB };
+const getAllBookingsFromDB = async () => {
+    const result = await Booking.find().populate('customer service slot');
+    return result;
+};
+
+const getMyBookingsFromDB = async (id: string) => {
+    const result = await Booking.find({ customer: id });
+    return result;
+};
+
+const bookingServices = {
+    bookingServiceIntoDB,
+    getAllBookingsFromDB,
+    getMyBookingsFromDB,
+};
 
 export default bookingServices;
