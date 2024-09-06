@@ -6,6 +6,7 @@ import {
 } from './service.validation';
 import serviceControllers from './service.controller';
 import auth from '../../middlewares/auth';
+import upload from '../../utils/multerFileUpload';
 
 const router = Router();
 
@@ -14,6 +15,13 @@ router.post(
     auth('admin'),
     validateRequest(serviceValidationSchema),
     serviceControllers.createService
+);
+
+router.post(
+    '/file-upload',
+    auth('admin'),
+    upload.single('file'),
+    serviceControllers.fileUpload
 );
 
 router.get('/', serviceControllers.getAllServices);

@@ -5,6 +5,18 @@ export const serviceValidationSchema = z.object({
         name: z.string({
             required_error: 'Name is required field',
         }),
+        title: z.string({
+            required_error: 'Title is required field',
+        }),
+        shortTitle: z.string({
+            required_error: 'Short title is required field',
+        }),
+        video: z.string({
+            required_error: 'Video title is required field',
+        }),
+        image: z.string({
+            required_error: 'Image title is required field',
+        }),
         description: z.string({
             required_error: 'Description is required field',
         }),

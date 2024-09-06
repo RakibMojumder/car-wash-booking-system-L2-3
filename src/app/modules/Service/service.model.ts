@@ -8,6 +8,22 @@ const serviceSchema = new Schema<TService>({
         type: String,
         required: true,
     },
+    title: {
+        type: String,
+        required: true,
+    },
+    shortTitle: {
+        type: String,
+        required: true,
+    },
+    video: {
+        type: String,
+        required: true,
+    },
+    image: {
+        type: String,
+        required: true,
+    },
     description: {
         type: String,
         required: true,

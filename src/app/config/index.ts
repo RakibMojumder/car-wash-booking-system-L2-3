@@ -10,4 +10,7 @@ export default {
     jwt_access_expires_in: process.env.JWT_ACCESS_EXPIRES_IN,
     bcrypt_salt_rounds: process.env.BCRYPT_SALT_ROUNDS,
     database_url: process.env.MONGODB_URI,
+    cloud_name: process.env.CLOUD_NAME,
+    cloud_api_key: process.env.CLOUD_API_KEY,
+    cloud_api_secret: process.env.CLOUD_API_SECRET,
 };

@@ -1,7 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import serviceServices from './service.service';
+import { v2 as cloudinary, UploadApiResponse } from 'cloudinary';
+import { Request, Response } from 'express';
+import { TCloudinaryFileUpload } from './service.interface';
+import fs from 'fs';
 
 const createService = catchAsync(async (req, res) => {
     const result = await serviceServices.createServiceIntoDB(req.body);
@@ -21,6 +26,54 @@ const createService = catchAsync(async (req, res) => {
         data: result,
     });
 });
+
+const fileUpload = async (req: Request, res: Response) => {
+    try {
+        const image = req.file;
+        const resource_type = image?.mimetype.split(
+            '/'
+        )[0] as TCloudinaryFileUpload;
+
+        cloudinary.uploader.upload(
+            image?.path as string,
+            {
+                folder: 'glossywheels',
+                resource_type,
+            },
+            (error: any, result: UploadApiResponse | undefined) => {
+                if (error) {
+                    return sendResponse(res, {
+                        statusCode: httpStatus.BAD_REQUEST,
+                        success: false,
+                        message: 'Could not upload file to cloudinary',
+                    });
+                }
+
+                fs.unlink(image?.path as string, (err) => {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log('File is deleted.');
+                    }
+                });
+
+                sendResponse(res, {
+                    statusCode: httpStatus.OK,
+                    success: true,
+                    message: 'file uploaded successfully',
+                    data: result?.secure_url,
+                });
+            }
+        );
+    } catch (error: any) {
+        console.log(error);
+        sendResponse(res, {
+            statusCode: httpStatus.BAD_REQUEST,
+            success: false,
+            message: 'Could not upload file to cloudinary',
+        });
+    }
+};
 
 const getAllServices = catchAsync(async (req, res) => {
     const result = await serviceServices.getAllServicesFromDB();
@@ -103,6 +156,7 @@ const deleteService = catchAsync(async (req, res) => {
 
 const serviceControllers = {
     createService,
+    fileUpload,
     getAllServices,
     getSingleService,
     updateService,
