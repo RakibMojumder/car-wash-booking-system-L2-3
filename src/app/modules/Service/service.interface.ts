@@ -5,6 +5,7 @@ export interface TService {
     video: string;
     image: string;
     description: string;
+    shortDescription: string;
     price: number;
     duration: number;
     isDeleted: boolean;

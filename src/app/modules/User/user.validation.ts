@@ -4,8 +4,11 @@ export const userRoleSchema = z.enum(['user', 'admin']);
 
 export const userSchemaValidation = z.object({
     body: z.object({
-        name: z.string({
-            required_error: 'Name is required field',
+        firstName: z.string({
+            required_error: 'First name is required field',
+        }),
+        lastName: z.string({
+            required_error: 'Last name is required field',
         }),
         email: z
             .string({

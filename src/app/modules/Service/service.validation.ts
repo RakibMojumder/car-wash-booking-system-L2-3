@@ -20,6 +20,9 @@ export const serviceValidationSchema = z.object({
         description: z.string({
             required_error: 'Description is required field',
         }),
+        shortDescription: z.string({
+            required_error: 'Short description is required field',
+        }),
         price: z.number({
             required_error: 'Price is required field',
         }),

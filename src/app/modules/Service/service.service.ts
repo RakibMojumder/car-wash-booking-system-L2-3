@@ -11,8 +11,8 @@ const getAllServicesFromDB = async () => {
     return result;
 };
 
-const getSingleServiceFromDB = async (id: string) => {
-    const result = await Service.findOne({ _id: id });
+const getSingleServiceFromDB = async (serviceName: string) => {
+    const result = await Service.findOne({ name: serviceName });
     return result;
 };
 

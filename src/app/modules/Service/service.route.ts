@@ -25,7 +25,7 @@ router.post(
 );
 
 router.get('/', serviceControllers.getAllServices);
-router.get('/:id', serviceControllers.getSingleService);
+router.get('/:serviceName', serviceControllers.getSingleService);
 
 router.patch(
     '/:id',

@@ -10,6 +10,7 @@ import fs from 'fs';
 
 const createService = catchAsync(async (req, res) => {
     const result = await serviceServices.createServiceIntoDB(req.body);
+    console.log(result);
 
     if (!result) {
         return sendResponse(res, {
@@ -95,7 +96,9 @@ const getAllServices = catchAsync(async (req, res) => {
 });
 
 const getSingleService = catchAsync(async (req, res) => {
-    const result = await serviceServices.getSingleServiceFromDB(req.params.id);
+    const result = await serviceServices.getSingleServiceFromDB(
+        req.params.serviceName
+    );
 
     if (!result) {
         return sendResponse(res, {

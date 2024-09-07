@@ -28,6 +28,10 @@ const serviceSchema = new Schema<TService>({
         type: String,
         required: true,
     },
+    shortDescription: {
+        type: String,
+        required: true,
+    },
     price: {
         type: Number,
         required: true,

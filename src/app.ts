@@ -6,7 +6,14 @@ import router from './app/routes';
 
 const app: Application = express();
 
-app.use(cors());
+app.use(
+    cors({
+        origin: ['https://glossy-wheels.vercel.app', 'http://localhost:5173'],
+        methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+        allowedHeaders: ['Content-Type', 'Authorization'],
+        credentials: true,
+    })
+);
 app.use(express.json());
 
 app.use('/api', router);
