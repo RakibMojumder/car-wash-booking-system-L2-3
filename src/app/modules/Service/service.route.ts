@@ -24,7 +24,7 @@ router.post(
     serviceControllers.fileUpload
 );
 
-router.get('/', serviceControllers.getAllServices);
+router.get('/', auth('admin'), serviceControllers.getAllServices);
 router.get('/:serviceName', serviceControllers.getSingleService);
 
 router.patch(
