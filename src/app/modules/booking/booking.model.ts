@@ -19,6 +19,10 @@ const bookingSchema = new Schema<TBooking>(
             required: true,
             ref: 'slots',
         },
+        date: {
+            type: String,
+            required: true,
+        },
         vehicleType: {
             type: String,
             required: true,

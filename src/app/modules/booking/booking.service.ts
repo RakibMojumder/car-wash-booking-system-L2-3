@@ -16,11 +16,10 @@ const bookingServiceIntoDB = async (payload: TBooking) => {
     // check if the slot is available
     const slot = await Slot.findOne({
         _id: payload.slot,
-        isBooked: 'available',
     });
 
     if (!slot) {
-        throw new AppError(httpStatus.BAD_REQUEST, 'Slot is not available');
+        throw new AppError(httpStatus.BAD_REQUEST, 'Cloud not find slot');
     }
 
     // booked the slot

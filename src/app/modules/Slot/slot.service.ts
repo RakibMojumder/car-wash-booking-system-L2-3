@@ -4,6 +4,7 @@ import Service from '../Service/service.model';
 import { TSlot } from './slot.interface';
 import generateSlots from './slot.utils';
 import Slot from './slot.model';
+import mongoose from 'mongoose';
 
 const createSlotIntoDB = async (payload: TSlot) => {
     // check is service exists
@@ -43,19 +44,26 @@ const createSlotIntoDB = async (payload: TSlot) => {
 };
 
 const getAvailableSlotsFromDB = async (query: Record<string, unknown>) => {
-    const filter: Record<string, unknown>[] = [{ isBooked: 'available' }];
+    const service = new mongoose.Types.ObjectId(query.serviceId as string);
+    const availableSlots = Slot.aggregate([
+        { $match: { service } },
+        {
+            $lookup: {
+                from: 'bookings',
+                foreignField: 'slot',
+                localField: '_id',
+                as: 'bookingInfo',
+            },
+        },
+        {
+            $match: {
+                'bookingInfo.date': { $ne: query.date },
+            },
+        },
+        { $project: { startTime: 1, endTime: 1 } },
+    ]);
 
-    if (query.date) {
-        filter.push({ date: query.date });
-    }
-
-    if (query.service) {
-        filter.push({ service: query.serviceId });
-    }
-
-    const result = await Slot.find({ $and: filter }).populate('service');
-
-    return result;
+    return availableSlots;
 };
 
 const slotServices = { createSlotIntoDB, getAvailableSlotsFromDB };

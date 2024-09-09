@@ -15,6 +15,7 @@ export type TVehicleType =
 export interface TBooking {
     customer: Types.ObjectId;
     service: Types.ObjectId;
+    date: string;
     slot: Types.ObjectId;
     vehicleType: TVehicleType;
     vehicleBrand: string;

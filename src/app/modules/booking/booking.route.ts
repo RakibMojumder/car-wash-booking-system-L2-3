@@ -8,7 +8,7 @@ const router = Router();
 
 router.post(
     '/',
-    auth('user'),
+    auth('user', 'admin'),
     validateRequest(bookingValidationSchema),
     bookingControllers.bookingService
 );

@@ -5,6 +5,7 @@ export const bookingValidationSchema = z.object({
     body: z.object({
         service: z.string(),
         slot: z.string(),
+        date: z.string(),
         vehicleType: z.enum(VehicleType as [string, ...string[]]),
         vehicleBrand: z.string(),
         vehicleModel: z.string(),
