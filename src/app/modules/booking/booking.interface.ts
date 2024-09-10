@@ -3,14 +3,17 @@ import { Types } from 'mongoose';
 export type TVehicleType =
     | 'car'
     | 'truck'
-    | 'SUV'
+    | 'suv'
     | 'van'
     | 'motorcycle'
     | 'bus'
-    | 'electricVehicle'
-    | 'hybridVehicle'
+    | 'electric vehicle'
+    | 'hybrid vehicle'
     | 'bicycle'
     | 'tractor';
+
+export type TPaymentStatus = 'Paid' | 'Pending' | 'Failed';
+export type TBookingStatus = 'Pending' | 'Completed' | 'Canceled';
 
 export interface TBooking {
     customer: Types.ObjectId;
@@ -19,7 +22,8 @@ export interface TBooking {
     slot: Types.ObjectId;
     vehicleType: TVehicleType;
     vehicleBrand: string;
-    vehicleModel: string;
-    manufacturingYear: number;
     registrationPlate: string;
+    paymentStatus: TPaymentStatus;
+    bookingStatus: TBookingStatus;
+    transactionId: string;
 }

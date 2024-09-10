@@ -3,9 +3,9 @@ import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import bookingServices from './booking.service';
 
-const bookingService = catchAsync(async (req, res) => {
+const createBooking = catchAsync(async (req, res) => {
     const payload = { ...req.body, customer: req.user.id };
-    const result = await bookingServices.bookingServiceIntoDB(payload);
+    const result = await bookingServices.createBookingInfoDB(payload);
 
     if (!result) {
         return sendResponse(res, {
@@ -61,6 +61,6 @@ const getMyBookings = catchAsync(async (req, res) => {
     });
 });
 
-const bookingControllers = { bookingService, getAllBooking, getMyBookings };
+const bookingControllers = { createBooking, getAllBooking, getMyBookings };
 
 export default bookingControllers;

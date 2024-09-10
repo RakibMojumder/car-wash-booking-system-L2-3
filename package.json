@@ -18,6 +18,7 @@
     "dependencies": {
         "@types/bcrypt": "^5.0.2",
         "@types/cookie-parser": "^1.4.7",
+        "axios": "^1.7.7",
         "bcrypt": "^5.1.1",
         "cloudinary": "^1.41.0",
         "cookie-parser": "^1.4.6",
@@ -27,6 +28,7 @@
         "http-status": "^1.7.4",
         "jsonwebtoken": "^9.0.2",
         "mongoose": "^8.4.4",
+        "uuid": "^10.0.0",
         "zod": "^3.23.8"
     },
     "devDependencies": {
@@ -35,6 +37,7 @@
         "@types/express": "^4.17.21",
         "@types/jsonwebtoken": "^9.0.6",
         "@types/multer": "^1.4.12",
+        "@types/uuid": "^10.0.0",
         "@typescript-eslint/eslint-plugin": "^7.15.0",
         "@typescript-eslint/parser": "^7.15.0",
         "eslint": "^9.6.0",

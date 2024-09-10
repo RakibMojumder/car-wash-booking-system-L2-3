@@ -8,8 +8,6 @@ export const bookingValidationSchema = z.object({
         date: z.string(),
         vehicleType: z.enum(VehicleType as [string, ...string[]]),
         vehicleBrand: z.string(),
-        vehicleModel: z.string(),
-        manufacturingYear: z.number(),
         registrationPlate: z.string(),
     }),
 });

@@ -4,10 +4,18 @@ import Service from '../Service/service.model';
 import { TBooking } from './booking.interface';
 import Booking from './booking.model';
 import Slot from '../Slot/slot.model';
+import { v4 as uuidv4 } from 'uuid';
+import { initiatePayment, TPaymentPayload } from '../payment/payment.utils';
+import User from '../User/user.model';
 
-const bookingServiceIntoDB = async (payload: TBooking) => {
+const createBookingInfoDB = async (payload: TBooking) => {
     // check if the service is exists in the database
     const service = await Service.findById(payload.service);
+    const user = await User.findById(payload.customer);
+
+    if (!user) {
+        throw new AppError(httpStatus.NOT_FOUND, 'User is not found');
+    }
 
     if (!service) {
         throw new AppError(httpStatus.NOT_FOUND, 'Service is not found');
@@ -22,21 +30,22 @@ const bookingServiceIntoDB = async (payload: TBooking) => {
         throw new AppError(httpStatus.BAD_REQUEST, 'Cloud not find slot');
     }
 
-    // booked the slot
-    const bookingSlot = await Slot.findByIdAndUpdate(
-        payload.slot,
-        { isBooked: 'booked' },
-        { new: true }
-    );
+    const transactionId = uuidv4();
 
-    if (!bookingSlot) {
-        throw new AppError(httpStatus.BAD_REQUEST, 'Failed to booked slot');
-    }
+    await Booking.create({ ...payload, transactionId });
 
-    const result = (await Booking.create(payload)).populate(
-        'customer service slot'
-    );
-    return result;
+    const paymentData = {
+        customerName: `${user?.firstName} ${user?.lastName}`,
+        customerEmail: user?.email,
+        customerAddress: user?.address,
+        customerPhone: user?.phone,
+        amount: service.price,
+        transactionId,
+    } as TPaymentPayload;
+
+    const paymentSession = await initiatePayment(paymentData);
+
+    return paymentSession;
 };
 
 const getAllBookingsFromDB = async () => {
@@ -50,7 +59,7 @@ const getMyBookingsFromDB = async (id: string) => {
 };
 
 const bookingServices = {
-    bookingServiceIntoDB,
+    createBookingInfoDB,
     getAllBookingsFromDB,
     getMyBookingsFromDB,
 };

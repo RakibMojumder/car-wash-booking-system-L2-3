@@ -1,14 +1,25 @@
-import { TVehicleType } from './booking.interface';
+import {
+    TBookingStatus,
+    TPaymentStatus,
+    TVehicleType,
+} from './booking.interface';
+
+export const PaymentStatus: TPaymentStatus[] = ['Paid', 'Pending', 'Failed'];
+export const BookingStatus: TBookingStatus[] = [
+    'Pending',
+    'Completed',
+    'Canceled',
+];
 
 const VehicleType: TVehicleType[] = [
     'car',
     'truck',
-    'SUV',
+    'suv',
     'van',
     'motorcycle',
     'bus',
-    'electricVehicle',
-    'hybridVehicle',
+    'electric vehicle',
+    'hybrid vehicle',
     'bicycle',
     'tractor',
 ];
