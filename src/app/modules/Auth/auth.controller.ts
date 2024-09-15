@@ -3,7 +3,6 @@ import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import userServices from './auth.service';
 import config from '../../config';
-import AppError from '../../errors/AppError';
 
 const createUser = catchAsync(async (req, res) => {
     const result = await userServices.createUserIntoDB(req.body);

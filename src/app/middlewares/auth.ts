@@ -24,7 +24,8 @@ const auth = (...requiredRoles: TUserRole[]) => {
                 token,
                 config.jwt_access_token as string
             ) as JwtPayload;
-        } catch (error) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any, no-unused-vars
+        } catch (error: any) {
             throw new AppError(httpStatus.UNAUTHORIZED, 'unauthorized');
         }
 
