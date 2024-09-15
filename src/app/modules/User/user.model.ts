@@ -8,7 +8,11 @@ import config from '../../config';
 
 const userSchema = new Schema<TUser>(
     {
-        name: {
+        firstName: {
+            type: String,
+            required: true,
+        },
+        lastName: {
             type: String,
             required: true,
         },
@@ -28,6 +32,9 @@ const userSchema = new Schema<TUser>(
             required: true,
             minlength: 11,
         },
+        profile: {
+            type: String,
+        },
         address: {
             type: String,
             required: true,
@@ -35,6 +42,7 @@ const userSchema = new Schema<TUser>(
         role: {
             type: String,
             enum: UserRole,
+            default: 'user',
             required: true,
         },
     },

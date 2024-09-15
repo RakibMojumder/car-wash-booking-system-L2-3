@@ -1,7 +1,5 @@
 import { z } from 'zod';
 
-export const userRoleSchema = z.enum(['user', 'admin']);
-
 export const userSchemaValidation = z.object({
     body: z.object({
         firstName: z.string({
@@ -27,11 +25,8 @@ export const userSchemaValidation = z.object({
             .min(11, {
                 message: 'Phone number must be at least 11 digits long',
             }),
-        role: userRoleSchema,
         address: z.string({
             required_error: 'Address is required field',
         }),
     }),
 });
-
-// export type TUser = z.infer<typeof TUserSchemaValidation>['body'];

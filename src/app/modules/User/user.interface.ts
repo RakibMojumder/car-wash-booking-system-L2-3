@@ -6,6 +6,7 @@ export interface TUser {
     email: string;
     password: string;
     phone: string;
+    profile?: string;
     role: TUserRole;
     address: string;
 }
