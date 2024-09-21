@@ -43,6 +43,39 @@ const createSlotIntoDB = async (payload: TSlot) => {
     return result;
 };
 
+const getAllSlotsFromDB = async () => {
+    const slots = await Slot.aggregate([
+        {
+            $match: {},
+        },
+        {
+            $lookup: {
+                from: 'services',
+                foreignField: '_id',
+                localField: 'service',
+                as: 'service',
+            },
+        },
+        {
+            $unwind: '$service',
+        },
+        {
+            $group: { _id: '$service.name', allSlots: { $push: '$$ROOT' } },
+        },
+        {
+            $unwind: '$allSlots',
+        },
+        {
+            $project: { 'allSlots.service': 0 },
+        },
+        {
+            $group: { _id: '$_id', slots: { $push: '$allSlots' } },
+        },
+    ]);
+
+    return slots;
+};
+
 const getAvailableSlotsFromDB = async (query: Record<string, unknown>) => {
     const service = new mongoose.Types.ObjectId(query.serviceId as string);
     const availableSlots = Slot.aggregate([
@@ -66,6 +99,10 @@ const getAvailableSlotsFromDB = async (query: Record<string, unknown>) => {
     return availableSlots;
 };
 
-const slotServices = { createSlotIntoDB, getAvailableSlotsFromDB };
+const slotServices = {
+    createSlotIntoDB,
+    getAllSlotsFromDB,
+    getAvailableSlotsFromDB,
+};
 
 export default slotServices;

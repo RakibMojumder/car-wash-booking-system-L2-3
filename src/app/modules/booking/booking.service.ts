@@ -7,8 +7,9 @@ import Slot from '../Slot/slot.model';
 import { v4 as uuidv4 } from 'uuid';
 import { initiatePayment, TPaymentPayload } from '../payment/payment.utils';
 import User from '../User/user.model';
+import formattedDate from './booking.utils';
 
-const createBookingInfoDB = async (payload: TBooking) => {
+const createBookingIntoDB = async (payload: TBooking) => {
     // check if the service is exists in the database
     const service = await Service.findById(payload.service);
     const user = await User.findById(payload.customer);
@@ -21,7 +22,7 @@ const createBookingInfoDB = async (payload: TBooking) => {
         throw new AppError(httpStatus.NOT_FOUND, 'Service is not found');
     }
 
-    // check if the slot is available
+    // // check if the slot is available
     const slot = await Slot.findOne({
         _id: payload.slot,
     });
@@ -31,8 +32,13 @@ const createBookingInfoDB = async (payload: TBooking) => {
     }
 
     const transactionId = uuidv4();
+    const date = formattedDate(payload.date);
 
-    await Booking.create({ ...payload, transactionId });
+    await Booking.create({
+        ...payload,
+        date,
+        transactionId,
+    });
 
     const paymentData = {
         customerName: `${user?.firstName} ${user?.lastName}`,
@@ -54,12 +60,14 @@ const getAllBookingsFromDB = async () => {
 };
 
 const getMyBookingsFromDB = async (id: string) => {
-    const result = await Booking.find({ customer: id });
+    const result = await Booking.find({ customer: id })
+        .populate('service slot')
+        .sort('date');
     return result;
 };
 
 const bookingServices = {
-    createBookingInfoDB,
+    createBookingIntoDB,
     getAllBookingsFromDB,
     getMyBookingsFromDB,
 };

@@ -3,7 +3,7 @@ import Booking from '../Booking/booking.model';
 const updatePaymentStatusIntoDB = async (transactionId: string) => {
     const updateBooking = await Booking.findOneAndUpdate(
         { transactionId },
-        { paymentStatus: 'success' },
+        { paymentStatus: 'Paid' },
         { upsert: true }
     );
 

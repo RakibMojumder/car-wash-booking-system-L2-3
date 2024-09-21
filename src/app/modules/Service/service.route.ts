@@ -19,7 +19,7 @@ router.post(
 
 router.post(
     '/file-upload',
-    auth('admin'),
+    auth('admin', 'user'),
     upload.single('file'),
     serviceControllers.fileUpload
 );
@@ -36,6 +36,6 @@ router.patch(
 
 router.delete('/:id', auth('admin'), serviceControllers.deleteService);
 
-const serviceRouter = router;
+const serviceRoute = router;
 
-export default serviceRouter;
+export default serviceRoute;

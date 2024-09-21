@@ -30,3 +30,24 @@ export const userSchemaValidation = z.object({
         }),
     }),
 });
+
+export const userUpdateSchemaValidation = z.object({
+    body: z.object({
+        firstName: z.string({
+            required_error: 'First name is required field',
+        }),
+        lastName: z.string({
+            required_error: 'Last name is required field',
+        }),
+        phone: z
+            .string({
+                required_error: 'Phone number is required field',
+            })
+            .min(11, {
+                message: 'Phone number must be at least 11 digits long',
+            }),
+        address: z.string({
+            required_error: 'Address is required field',
+        }),
+    }),
+});

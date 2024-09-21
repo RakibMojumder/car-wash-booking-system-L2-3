@@ -20,6 +20,6 @@ router.post(
 
 router.post('/refresh-token', authControllers.refreshToken);
 
-const authRouter = router;
+const authRoute = router;
 
-export default authRouter;
+export default authRoute;

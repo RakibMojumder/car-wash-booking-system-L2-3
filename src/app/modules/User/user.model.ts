@@ -34,6 +34,7 @@ const userSchema = new Schema<TUser>(
         },
         profile: {
             type: String,
+            default: 'https://github.com/shadcn.png',
         },
         address: {
             type: String,
@@ -78,6 +79,27 @@ userSchema.post('save', async function (doc, next) {
     doc.password = '';
     next();
 });
+
+// userSchema.pre('insertMany', async function (next, docs) {
+//     try {
+//         const promise = docs.map(async (doc: TUser) => {
+//             const hashedPassword = await bcrypt.hash(
+//                 doc.password,
+//                 Number(config.bcrypt_salt_rounds)
+//             );
+//             doc.password = hashedPassword;
+//             return doc;
+//         });
+
+//         await Promise.all(promise);
+
+//         next();
+//         // eslint-disable-next-line @typescript-eslint/no-explicit-any
+//     } catch (error: any) {
+//         console.log(error);
+//         next(error);
+//     }
+// });
 
 const User = model<TUser>('users', userSchema);
 

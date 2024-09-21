@@ -13,6 +13,8 @@ router.post(
     slotControllers.createSlot
 );
 
+router.get('/', auth('admin'), slotControllers.getAllSlots);
+
 router.get('/availability', slotControllers.getAvailableSlots);
 
 const slotRoute = router;
