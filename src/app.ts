@@ -19,7 +19,7 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
-app.use('/api', router);
+app.use('/api/v1', router);
 app.get('/', (req: Request, res: Response) => {
     res.send('hello from api');
 });
