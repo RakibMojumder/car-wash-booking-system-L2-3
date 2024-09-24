@@ -66,10 +66,22 @@ const getMyBookingsFromDB = async (id: string) => {
     return result;
 };
 
+const getSingleBookingFromDB = async (transactionId: string) => {
+    const result = await Booking.findOne({ transactionId })
+        .populate({
+            path: 'customer',
+            select: 'email -_id',
+        })
+        .select('transactionId');
+
+    return result;
+};
+
 const bookingServices = {
     createBookingIntoDB,
     getAllBookingsFromDB,
     getMyBookingsFromDB,
+    getSingleBookingFromDB,
 };
 
 export default bookingServices;

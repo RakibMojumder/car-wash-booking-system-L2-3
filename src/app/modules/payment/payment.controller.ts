@@ -1,3 +1,4 @@
+import config from '../../config';
 import catchAsync from '../../utils/catchAsync';
 import paymentServices from './payment.service';
 
@@ -8,7 +9,9 @@ const updatePaymentStatus = catchAsync(async (req, res) => {
     );
 
     if (result) {
-        return res.redirect('http://localhost:5173/');
+        return res.redirect(
+            `${config.client_url}/payment-success/${transactionId}`
+        );
     }
 });
 
@@ -19,7 +22,9 @@ const deleteBookingForFailedPayment = catchAsync(async (req, res) => {
     );
 
     if (result) {
-        return res.redirect('http://localhost:5173/');
+        return res.redirect(
+            `${config.client_url}/payment-failed/${transactionId}`
+        );
     }
 });
 
