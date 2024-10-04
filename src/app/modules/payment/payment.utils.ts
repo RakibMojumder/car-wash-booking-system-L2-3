@@ -20,7 +20,7 @@ export const initiatePayment = async (payload: TPaymentPayload) => {
             tran_id: payload.transactionId,
             success_url: `${config.server_url}/payment/success?transactionId=${payload.transactionId}`,
             fail_url: `${config.server_url}/payment/failed?transactionId=${payload.transactionId}`,
-            cancel_url: `${config.client_url}`,
+            cancel_url: `localhost:200`,
             amount: payload.amount,
             currency: 'BDT',
             desc: 'Merchant Registration Payment',
@@ -46,8 +46,9 @@ export const initiatePayment = async (payload: TPaymentPayload) => {
         }
 
         return res.data;
-    } catch (error) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
         console.log(error);
-        throw new AppError(httpStatus.BAD_REQUEST, 'Payment initiate failed');
+        throw new AppError(httpStatus.BAD_REQUEST, error.message);
     }
 };

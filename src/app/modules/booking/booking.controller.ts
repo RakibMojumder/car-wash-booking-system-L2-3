@@ -65,6 +65,14 @@ const getSingleBookingDB = catchAsync(async (req, res) => {
     const transactionId = req.params.transactionId;
     const result = await bookingServices.getSingleBookingFromDB(transactionId);
 
+    if (!result) {
+        return sendResponse(res, {
+            success: false,
+            statusCode: httpStatus.NOT_FOUND,
+            message: 'Booking not found',
+        });
+    }
+
     sendResponse(res, {
         success: true,
         statusCode: httpStatus.OK,

@@ -22,9 +22,7 @@ const deleteBookingForFailedPayment = catchAsync(async (req, res) => {
     );
 
     if (result) {
-        return res.redirect(
-            `${config.client_url}/payment-failed/${transactionId}`
-        );
+        return res.redirect(`${config.client_url}/payment-failed`);
     }
 });
 

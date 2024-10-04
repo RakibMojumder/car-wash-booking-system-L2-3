@@ -10,48 +10,53 @@ import User from '../User/user.model';
 import formattedDate from './booking.utils';
 
 const createBookingIntoDB = async (payload: TBooking) => {
-    // check if the service is exists in the database
-    const service = await Service.findById(payload.service);
-    const user = await User.findById(payload.customer);
+    try {
+        // check if the service is exists in the database
+        const service = await Service.findById(payload.service);
+        const user = await User.findById(payload.customer);
 
-    if (!user) {
-        throw new AppError(httpStatus.NOT_FOUND, 'User is not found');
+        if (!user) {
+            throw new AppError(httpStatus.NOT_FOUND, 'User is not found');
+        }
+
+        if (!service) {
+            throw new AppError(httpStatus.NOT_FOUND, 'Service is not found');
+        }
+
+        // // check if the slot is available
+        const slot = await Slot.findOne({
+            _id: payload.slot,
+        });
+
+        if (!slot) {
+            throw new AppError(httpStatus.BAD_REQUEST, 'Cloud not find slot');
+        }
+
+        const transactionId = uuidv4();
+        const date = formattedDate(payload.date);
+
+        await Booking.create({
+            ...payload,
+            date,
+            transactionId,
+        });
+
+        const paymentData = {
+            customerName: `${user?.firstName} ${user?.lastName}`,
+            customerEmail: user?.email,
+            customerAddress: user?.address,
+            customerPhone: user?.phone,
+            amount: service.price,
+            transactionId,
+        } as TPaymentPayload;
+
+        const paymentSession = await initiatePayment(paymentData);
+
+        return paymentSession;
+    } catch (error) {
+        console.log(error);
+        throw new AppError(httpStatus.BAD_REQUEST, 'something is wrong');
     }
-
-    if (!service) {
-        throw new AppError(httpStatus.NOT_FOUND, 'Service is not found');
-    }
-
-    // // check if the slot is available
-    const slot = await Slot.findOne({
-        _id: payload.slot,
-    });
-
-    if (!slot) {
-        throw new AppError(httpStatus.BAD_REQUEST, 'Cloud not find slot');
-    }
-
-    const transactionId = uuidv4();
-    const date = formattedDate(payload.date);
-
-    await Booking.create({
-        ...payload,
-        date,
-        transactionId,
-    });
-
-    const paymentData = {
-        customerName: `${user?.firstName} ${user?.lastName}`,
-        customerEmail: user?.email,
-        customerAddress: user?.address,
-        customerPhone: user?.phone,
-        amount: service.price,
-        transactionId,
-    } as TPaymentPayload;
-
-    const paymentSession = await initiatePayment(paymentData);
-
-    return paymentSession;
 };
 
 const getAllBookingsFromDB = async () => {
@@ -71,6 +76,10 @@ const getSingleBookingFromDB = async (transactionId: string) => {
         .populate({
             path: 'customer',
             select: 'email -_id',
+        })
+        .populate({
+            path: 'service',
+            select: 'price -_id',
         })
         .select('transactionId');
 
