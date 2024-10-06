@@ -81,11 +81,37 @@ const getSingleBookingDB = catchAsync(async (req, res) => {
     });
 });
 
+const getRecentBookings = catchAsync(async (req, res) => {
+    const result = await bookingServices.getRecentBookingsFromDB();
+
+    sendResponse(res, {
+        success: true,
+        statusCode: httpStatus.OK,
+        message: 'Recent Booking retrieved successfully',
+        data: result,
+    });
+});
+
+const getUserRecentBookings = catchAsync(async (req, res) => {
+    const result = await bookingServices.getUserRecentBookingsFromDB(
+        req.user.id
+    );
+
+    sendResponse(res, {
+        success: true,
+        statusCode: httpStatus.OK,
+        message: 'Recent Booking retrieved successfully',
+        data: result,
+    });
+});
+
 const bookingControllers = {
     createBooking,
     getAllBooking,
     getMyBookings,
     getSingleBookingDB,
+    getRecentBookings,
+    getUserRecentBookings,
 };
 
 export default bookingControllers;

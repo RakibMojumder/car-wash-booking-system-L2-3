@@ -86,11 +86,45 @@ const getSingleBookingFromDB = async (transactionId: string) => {
     return result;
 };
 
+const getRecentBookingsFromDB = async () => {
+    const result = await Booking.find({})
+        .populate({
+            path: 'service',
+            select: 'price name image -_id',
+        })
+        .populate({
+            path: 'slot',
+            select: 'startTime endTime _id',
+        })
+        .select('service slot date createdAt')
+        .sort('-createdAt')
+        .limit(6);
+    return result;
+};
+
+const getUserRecentBookingsFromDB = async (id: string) => {
+    const result = await Booking.find({ customer: id })
+        .populate({
+            path: 'service',
+            select: 'price name image -_id',
+        })
+        .populate({
+            path: 'slot',
+            select: 'startTime endTime _id',
+        })
+        .select('service slot date createdAt')
+        .sort('-createdAt')
+        .limit(6);
+    return result;
+};
+
 const bookingServices = {
     createBookingIntoDB,
     getAllBookingsFromDB,
     getMyBookingsFromDB,
     getSingleBookingFromDB,
+    getRecentBookingsFromDB,
+    getUserRecentBookingsFromDB,
 };
 
 export default bookingServices;
