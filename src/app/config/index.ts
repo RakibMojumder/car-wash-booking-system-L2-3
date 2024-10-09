@@ -20,4 +20,6 @@ export default {
     amar_pay_base_url: process.env.AMAR_PAY_BASE_URL,
     amar_pay_store_id: process.env.AMAR_PAY_STORE_ID,
     amar_pay_signature_key: process.env.AMAR_PAY_SIGNATURE_KEY,
+    store_id: process.env.STORE_ID,
+    store_pass: process.env.STORE_PASSWORD,
 };
