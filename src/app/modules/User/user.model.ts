@@ -46,6 +46,11 @@ const userSchema = new Schema<TUser>(
             default: 'user',
             required: true,
         },
+        isDeleted: {
+            type: Boolean,
+            default: false,
+            require: true,
+        },
     },
     { timestamps: true }
 );

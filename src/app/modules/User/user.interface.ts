@@ -9,6 +9,7 @@ export interface TUser {
     profile?: string;
     role: TUserRole;
     address: string;
+    isDeleted: boolean;
 }
 
 export type TUserRole = keyof typeof UserRole;

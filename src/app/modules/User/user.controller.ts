@@ -50,6 +50,23 @@ const makeAdmin = catchAsync(async (req, res) => {
     });
 });
 
-const userControllers = { getAllUsers, getLoginUser, updateUser, makeAdmin };
+const deleteUser = catchAsync(async (req, res) => {
+    const result = await userServices.deleteUserIntoDB(req.params.id);
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: 'User deleted successfully',
+        data: result,
+    });
+});
+
+const userControllers = {
+    getAllUsers,
+    getLoginUser,
+    updateUser,
+    makeAdmin,
+    deleteUser,
+};
 
 export default userControllers;
