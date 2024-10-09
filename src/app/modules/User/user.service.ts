@@ -1,3 +1,5 @@
+import httpStatus from 'http-status';
+import AppError from '../../errors/AppError';
 import { TUser } from './user.interface';
 import User from './user.model';
 
@@ -12,10 +14,34 @@ const getLoginUserFromDB = async (id: string) => {
 };
 
 const updateUserIntoDB = async (payload: Partial<TUser>, id: string) => {
+    // check if user exits
+    const isUserExist = await User.findById(id);
+
+    if (!isUserExist) {
+        throw new AppError(httpStatus.NOT_FOUND, 'User not found');
+    }
+
     const result = await User.findByIdAndUpdate(id, payload, { upsert: true });
     return result;
 };
 
-const userServices = { getAllUserFromDB, getLoginUserFromDB, updateUserIntoDB };
+const makeAdminIntoDB = async (id: string, role: string) => {
+    // check if user exits
+    const isUserExist = await User.findById(id);
+
+    if (!isUserExist) {
+        return new AppError(httpStatus.NOT_FOUND, 'User not found');
+    }
+
+    const result = User.findByIdAndUpdate(id, { role }, { new: true });
+    return result;
+};
+
+const userServices = {
+    getAllUserFromDB,
+    getLoginUserFromDB,
+    updateUserIntoDB,
+    makeAdminIntoDB,
+};
 
 export default userServices;

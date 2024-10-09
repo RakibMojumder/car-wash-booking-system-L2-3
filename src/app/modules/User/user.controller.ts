@@ -26,7 +26,7 @@ const getLoginUser = catchAsync(async (req, res) => {
 });
 
 const updateUser = catchAsync(async (req, res) => {
-    const result = await userServices.updateUserIntoDB(req.body, req.user.id);
+    const result = await userServices.updateUserIntoDB(req.body, req.params.id);
 
     sendResponse(res, {
         statusCode: httpStatus.OK,
@@ -36,6 +36,20 @@ const updateUser = catchAsync(async (req, res) => {
     });
 });
 
-const userControllers = { getAllUsers, getLoginUser, updateUser };
+const makeAdmin = catchAsync(async (req, res) => {
+    const result = await userServices.makeAdminIntoDB(
+        req.params.id,
+        req.body.role
+    );
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: 'Make admin successfully',
+        data: result,
+    });
+});
+
+const userControllers = { getAllUsers, getLoginUser, updateUser, makeAdmin };
 
 export default userControllers;
