@@ -6,6 +6,11 @@ const createEnquireIntoDB = async (payload: TEnquireTypes) => {
     return result;
 };
 
-const enquireServices = { createEnquireIntoDB };
+const getAllEnquiresFromDB = async () => {
+    const result = await Enquire.find({});
+    return result;
+};
+
+const enquireServices = { createEnquireIntoDB, getAllEnquiresFromDB };
 
 export default enquireServices;
