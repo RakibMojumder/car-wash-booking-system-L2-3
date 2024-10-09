@@ -25,7 +25,13 @@ router.get(
     auth('user'),
     bookingControllers.getUserRecentBookings
 );
-router.get('/:transactionId', bookingControllers.getSingleBookingDB);
+router.get(
+    '/:transactionId',
+    auth('admin', 'user'),
+    bookingControllers.getSingleBookingDB
+);
+
+router.patch('/:id', auth('admin'), bookingControllers.updateBookingStatus);
 
 const bookingRoute = router;
 

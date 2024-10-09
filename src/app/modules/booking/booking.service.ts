@@ -60,7 +60,9 @@ const createBookingIntoDB = async (payload: TBooking) => {
 };
 
 const getAllBookingsFromDB = async () => {
-    const result = await Booking.find().populate('customer service slot');
+    const result = await Booking.find()
+        .populate('customer service slot')
+        .sort('-createdAt');
     return result;
 };
 
@@ -118,6 +120,15 @@ const getUserRecentBookingsFromDB = async (id: string) => {
     return result;
 };
 
+const updateBookingStatusIntoDB = async (id: string, status: string) => {
+    const result = await Booking.findOneAndUpdate(
+        { _id: id },
+        { bookingStatus: status },
+        { new: true }
+    );
+    return result;
+};
+
 const bookingServices = {
     createBookingIntoDB,
     getAllBookingsFromDB,
@@ -125,6 +136,7 @@ const bookingServices = {
     getSingleBookingFromDB,
     getRecentBookingsFromDB,
     getUserRecentBookingsFromDB,
+    updateBookingStatusIntoDB,
 };
 
 export default bookingServices;

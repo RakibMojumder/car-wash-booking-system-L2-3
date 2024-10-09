@@ -105,6 +105,20 @@ const getUserRecentBookings = catchAsync(async (req, res) => {
     });
 });
 
+const updateBookingStatus = catchAsync(async (req, res) => {
+    const result = await bookingServices.updateBookingStatusIntoDB(
+        req.params.id,
+        req.body.status
+    );
+
+    sendResponse(res, {
+        success: true,
+        statusCode: httpStatus.OK,
+        message: 'Booking status update successfully',
+        data: result,
+    });
+});
+
 const bookingControllers = {
     createBooking,
     getAllBooking,
@@ -112,6 +126,7 @@ const bookingControllers = {
     getSingleBookingDB,
     getRecentBookings,
     getUserRecentBookings,
+    updateBookingStatus,
 };
 
 export default bookingControllers;
