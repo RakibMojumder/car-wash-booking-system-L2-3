@@ -5,4 +5,5 @@ export type TEnquireTypes = {
     email: string;
     services?: Array<string>;
     question: string;
+    replied: boolean;
 };

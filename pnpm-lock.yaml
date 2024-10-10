@@ -11,6 +11,9 @@ dependencies:
   '@types/cookie-parser':
     specifier: ^1.4.7
     version: 1.4.7
+  '@types/nodemailer':
+    specifier: ^6.4.16
+    version: 6.4.16
   axios:
     specifier: ^1.7.7
     version: 1.7.7
@@ -41,6 +44,9 @@ dependencies:
   mongoose:
     specifier: ^8.4.4
     version: 8.4.4
+  nodemailer:
+    specifier: ^6.9.15
+    version: 6.9.15
   sslcommerz-lts:
     specifier: ^1.1.0
     version: 1.1.0
@@ -272,6 +278,12 @@ packages:
     resolution: {integrity: sha512-06OCtnTXtWOZBJlRApleWndH4JsRVs1pDCc8dLSQp+7PpUpX3ePdHyeNSFTeSe7FtKyQkrlPvHwJOW3SLd8Oyg==}
     dependencies:
       undici-types: 5.26.5
+
+  /@types/nodemailer@6.4.16:
+    resolution: {integrity: sha512-uz6hN6Pp0upXMcilM61CoKyjT7sskBoOWpptkjjJp8jIMlTdc3xG01U7proKkXzruMS4hS0zqtHNkNPFB20rKQ==}
+    dependencies:
+      '@types/node': 20.14.9
+    dev: false
 
   /@types/qs@6.9.15:
     resolution: {integrity: sha512-uXHQKES6DQKKCLh441Xv/dwxOq1TVS3JPUMlEqoEglvlhR6Mxnlew/Xq/LRVHpLyk7iK3zODe1qYHIMltO7XGg==}
@@ -1698,6 +1710,11 @@ packages:
         optional: true
     dependencies:
       whatwg-url: 5.0.0
+    dev: false
+
+  /nodemailer@6.9.15:
+    resolution: {integrity: sha512-AHf04ySLC6CIfuRtRiEYtGEXgRfa6INgWGluDhnxTZhHSKvrBu7lc1VVchQ0d8nPc4cFaZoPq8vkyNoZr0TpGQ==}
+    engines: {node: '>=6.0.0'}
     dev: false
 
   /nopt@5.0.0:

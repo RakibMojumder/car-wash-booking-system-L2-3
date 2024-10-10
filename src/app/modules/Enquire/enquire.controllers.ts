@@ -40,6 +40,27 @@ const getAllEnquires = catchAsync(async (req, res) => {
     });
 });
 
-const enquireControllers = { createEnquire, getAllEnquires };
+const enquireReply = catchAsync(async (req, res) => {
+    const result = await enquireServices.sendEnquireReply(
+        req.params.id,
+        req.body?.text
+    );
+    if (result) {
+        return sendResponse(res, {
+            statusCode: httpStatus.OK,
+            success: true,
+            message: 'Enquire replied successfully',
+            data: result,
+        });
+    }
+
+    sendResponse(res, {
+        statusCode: httpStatus.NOT_FOUND,
+        success: false,
+        message: 'Replied failed for enquire',
+    });
+});
+
+const enquireControllers = { createEnquire, getAllEnquires, enquireReply };
 
 export default enquireControllers;

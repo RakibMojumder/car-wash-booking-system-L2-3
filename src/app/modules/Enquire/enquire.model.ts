@@ -27,6 +27,11 @@ const enquireSchema = new Schema<TEnquireTypes>(
             type: String,
             required: false,
         },
+        replied: {
+            type: Boolean,
+            default: false,
+            required: true,
+        },
     },
     { timestamps: true }
 );

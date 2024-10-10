@@ -22,4 +22,6 @@ export default {
     amar_pay_signature_key: process.env.AMAR_PAY_SIGNATURE_KEY,
     store_id: process.env.STORE_ID,
     store_pass: process.env.STORE_PASSWORD,
+    sender_email: process.env.SENDER_EMAIL,
+    email_pass: process.env.EMAIL_PASS,
 };
