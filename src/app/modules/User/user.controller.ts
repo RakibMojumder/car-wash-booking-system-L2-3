@@ -5,13 +5,13 @@ import userServices from './user.service';
 
 const getAllUsers = catchAsync(async (req, res) => {
     const page = Number(req.query.page);
-    const result = await userServices.getAllUserFromDB(page);
+    const { users, totalUsers } = await userServices.getAllUserFromDB(page);
 
     sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
         message: 'Users retrieved successfully',
-        data: result,
+        data: { users, totalUsers },
     });
 });
 
