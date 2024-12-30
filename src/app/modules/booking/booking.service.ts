@@ -114,18 +114,27 @@ const createBookingIntoDB = async (payload: TBooking) => {
     }
 };
 
-const getAllBookingsFromDB = async () => {
-    const result = await Booking.find()
+const getAllBookingsFromDB = async (page: number) => {
+    const bookings = await Booking.find()
         .populate('customer service slot')
+        .skip(page * 10)
+        .limit(10)
         .sort('-createdAt');
-    return result;
+
+    const totalBookings = await Booking.find({}).countDocuments();
+    return { bookings, totalBookings };
 };
 
-const getMyBookingsFromDB = async (id: string) => {
-    const result = await Booking.find({ customer: id })
+const getMyBookingsFromDB = async (id: string, page: number) => {
+    const bookings = await Booking.find({ customer: id })
         .populate('service slot')
+        .skip(page * 10)
+        .limit(10)
         .sort('date');
-    return result;
+
+    const totalBookings = await Booking.find({ customer: id }).countDocuments();
+
+    return { bookings, totalBookings };
 };
 
 const getSingleBookingFromDB = async (transactionId: string) => {

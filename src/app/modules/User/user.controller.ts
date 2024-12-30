@@ -4,7 +4,8 @@ import sendResponse from '../../utils/sendResponse';
 import userServices from './user.service';
 
 const getAllUsers = catchAsync(async (req, res) => {
-    const result = await userServices.getAllUserFromDB();
+    const page = Number(req.query.page);
+    const result = await userServices.getAllUserFromDB(page);
 
     sendResponse(res, {
         statusCode: httpStatus.OK,
@@ -61,12 +62,36 @@ const deleteUser = catchAsync(async (req, res) => {
     });
 });
 
+const getAdminOverviewData = catchAsync(async (req, res) => {
+    const result = await userServices.getAdminOverviewDataFromDB();
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: 'Successfully retrieved overview data',
+        data: result,
+    });
+});
+
+const getUserOverviewData = catchAsync(async (req, res) => {
+    const result = await userServices.getUserOverviewDataFromDB(req.user.id);
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: 'Successfully retrieved overview data',
+        data: result,
+    });
+});
+
 const userControllers = {
     getAllUsers,
     getLoginUser,
     updateUser,
     makeAdmin,
     deleteUser,
+    getAdminOverviewData,
+    getUserOverviewData,
 };
 
 export default userControllers;

@@ -24,9 +24,11 @@ const createBooking = catchAsync(async (req, res) => {
 });
 
 const getAllBooking = catchAsync(async (req, res) => {
-    const result = await bookingServices.getAllBookingsFromDB();
+    const page = Number(req.query.page);
+    const { bookings, totalBookings } =
+        await bookingServices.getAllBookingsFromDB(page);
 
-    if (result.length < 0) {
+    if (bookings.length < 0) {
         return sendResponse(res, {
             success: false,
             statusCode: httpStatus.BAD_REQUEST,
@@ -38,14 +40,16 @@ const getAllBooking = catchAsync(async (req, res) => {
         success: true,
         statusCode: httpStatus.OK,
         message: 'Bookings retrieved successfully',
-        data: result,
+        data: { bookings, totalBookings },
     });
 });
 
 const getMyBookings = catchAsync(async (req, res) => {
-    const result = await bookingServices.getMyBookingsFromDB(req.user.id);
+    const page = Number(req.query.page);
+    const { bookings, totalBookings } =
+        await bookingServices.getMyBookingsFromDB(req.user.id, page);
 
-    if (result.length < 0) {
+    if (bookings.length < 0) {
         return sendResponse(res, {
             success: false,
             statusCode: httpStatus.BAD_REQUEST,
@@ -57,7 +61,7 @@ const getMyBookings = catchAsync(async (req, res) => {
         success: true,
         statusCode: httpStatus.OK,
         message: 'Bookings retrieved successfully',
-        data: result,
+        data: { bookings, totalBookings },
     });
 });
 
